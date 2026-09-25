@@ -1,0 +1,98 @@
+def collect_info():
+    new_employee_name = input("Enter the name of the employee: ")
+    new_employee_bp = input(f"Enter the basic pay of the {new_employee_name}: ")
+    new_employee_allow = input(f"Enter the allowance of the {new_employee_name}: ")
+    new_employee_deductions = input(f"Enter the deductions of the {new_employee_name}: ")
+    new_employee_taxes = input(f"Enter the taxes of the {new_employee_name}: ")
+    gp = int(new_employee_allow) + int(new_employee_bp)
+    np = gp - int(new_employee_deductions) - int(new_employee_taxes)
+    return new_employee_name,new_employee_bp,new_employee_allow,new_employee_deductions, new_employee_taxes, gp, np
+
+def employee_crm():
+    myEmployees = {}
+    id = 1
+    print("Thanks you for using Dauren's employee crm!")
+    while True:
+        print("Menu:")
+        print("1 - Add Employee")
+        print("2 - Remove Employee")
+        print("3 - Modify Employee")
+        print("4 - Display Employee")
+        print("0 - Exit")
+        action = input("Choose your action(0-4): ")
+        try:
+            action_checked = int(action)
+
+            if action_checked == 1:
+                print("You chose 'Add Employee'")
+                while True:
+                    que = collect_info()
+                    myEmployees.update({f"employee-{id}":{
+                        "name":{que[0]},
+                        "bp":{que[1]},
+                        "allow":{que[2]},
+                        "deductions":{que[3]},
+                        "taxes":{que[4]},
+                        "gp":{que[5]},
+                        "np":{que[6]},
+                    }})
+                    print(f"{que[0]} was succesfully added!")
+                    id = id + 1
+                    break
+            if action_checked == 2:
+                print("You chose 'Remove employee'")
+
+                looper = True
+                while looper:
+                    remove_employee = input("Enter the name of the employee you want to remove(0 to leave):")
+                    if remove_employee == "0":
+                        break
+
+                    for index in myEmployees:
+                        if next(iter(myEmployees.get(index).get("name"))) == remove_employee:
+                            del myEmployees[index]
+                            print(f"Succesfully deleted {remove_employee}")
+                            looper = False
+                            break
+
+            if action_checked == 3:
+                print("You chose 'Modify Employee'")
+                looper = True
+                while looper:
+                    modify_employee = input("Enter the name of the employee you want to replace(0 to leave):")
+                    if modify_employee == "0":
+                        break
+                    for index in myEmployees:
+                        if next(iter(myEmployees.get(index).get("name"))) == modify_employee:
+                            print(f"{modify_employee} found!")
+                            que = collect_info()
+                            myEmployees[index]["name"] = que[0]
+                            myEmployees[index]["bp"] = que[1]
+                            myEmployees[index]["allow"] = que[2]
+                            myEmployees[index]["deductions"] = que[3]
+                            myEmployees[index]["taxes"] = que[4]
+                            myEmployees[index]["gp"] = que[5]
+                            myEmployees[index]["np"] = que[6]
+                            looper = False
+                            break
+
+            if action_checked == 4:
+                print("You chose 'Show Employee'")
+                print("Employee list:")
+                for employee in myEmployees:
+
+
+                    print(f"{myEmployees[employee]["name"]}, basic pay = {myEmployees[employee]["bp"]}, allowance = {myEmployees[employee]["allow"]}")
+                    print(f"deductions = {myEmployees[employee]["deductions"]}, taxes = {myEmployees[employee]["taxes"]}")
+                    print(f"Gross Pay = {myEmployees[employee]["gp"]}, Net Pay = {myEmployees[employee]["np"]}")
+                    print("--------------------------------")
+            if action_checked == 0:
+                print("Thanks you for choosing us! Bye")
+                break
+
+        except:
+            print("Unknown Command try again!")
+
+
+
+employee_crm()
