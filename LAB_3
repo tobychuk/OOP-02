@@ -115,7 +115,7 @@ while True:
             for book in books:
                 print("-------------------------------")
                 print(f"Title: {book.book_title}")
-                print(f"Author: {books[int(book.author_id)].book_title}")
+                print(f"Author: {authors[int(book.author_id)].author_name}")
                 print(f"Publisher: {book.publisher}")
                 print(f"Year: {book.year_of_publication}")
                 print("-------------------------------")
