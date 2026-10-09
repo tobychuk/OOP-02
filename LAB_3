@@ -1,0 +1,146 @@
+books = []
+authors = []
+users = []
+
+class Book():
+    id = 0
+    def __init__(self):
+        self.book_id = Book.id
+        Book.id += 1
+        self.book_title = ""
+        self.author_id = ""
+        self.publisher = ""
+        self.year_of_publication = ""
+
+    def add_book(self):
+        self.book_title = input("Enter the title for the book: ")
+        print("List of authors")
+        for author in authors:
+            print(f"{author.author_name}, id = {author.id}")
+        self.author_id = input(f"Enter the author' id for {self.book_title}: ")
+        self.publisher = input(f"Enter the publisher of {self.book_title}: ")
+        self.year_of_publication = input(f"Enter the year of {self.book_title}: ")
+
+
+
+class Author():
+    id = 0
+    def __init__(self):
+        self.id = Author.id
+        Author.id += 1
+        self.author_name = ""
+        self.affiliation = ""
+        self.country = ""
+        self.phone = ""
+        self.email_id = ""
+
+    def add_author(self):
+        self.author_name = input("Enter new author name: ")
+        self.affiliation = input(f"Enter {self.author_name}'s affiliation: ")
+        self.country = input(f"Enter {self.author_name}'s country: ")
+        self.phone = input(f"Enter {self.author_name}'s phone: ")
+        self.email_id = input(f"Enter {self.author_name}'s Email ID: ")
+
+class User():
+    id = 0
+    def __init__(self):
+        self.user_id = User.id
+        User.id += 1
+        self.name = ""
+        self.password = ""
+        self.address = ""
+        self.phone = ""
+        self.email_id = ""
+        self.booksborrowed = []
+
+    def add_user(self):
+        self.name = input("Enter new user name: ")
+        self.password = input(f"Enter password for {self.name}: ")
+        self.address = input(f"Enter address for {self.name}: ")
+        self.phone = input(f"Enter phone for {self.name}: ")
+        self.email_id = input(f"Enter email id for {self.name}: ")
+
+    def borrow_book(self):
+        print("List of books")
+        for book in books:
+            print(f"{book.book_title}, id = {book.book_id}")
+        res = int(input(f"Enter id of the book you want to borrow for {self.name}: "))
+        self.booksborrowed.append(books[res].book_title)
+
+
+
+
+while True:
+    print("Welcome to Dauren's Library Management System")
+    print("Menu: ")
+    print("1 - Add Author")
+    print("2 - Add Book")
+    print("3 - Add User")
+    print("4 - Display Authors")
+    print("5 - Display Books")
+    print("6 - Display Users")
+    print("7 - Add book for user")
+    print("0 - Exit")
+    action = int(input("Choose your action(1-6): "))
+    while True:
+        if action == 1:
+            new_author = Author()
+            new_author.add_author()
+            authors.append(new_author)
+            break
+        elif action == 2:
+            new_book = Book()
+            new_book.add_book()
+            books.append(new_book)
+            break
+        elif action == 3:
+            new_user = User()
+            new_user.add_user()
+            users.append(new_user)
+            break
+        elif action == 4:
+            print("List of authors: ")
+            for author in authors:
+                print("-------------------------------")
+                print(f"Name: {author.author_name}")
+                print(f"Affiliation: {author.affiliation}")
+                print(f"Country: {author.country}")
+                print(f"Phone: {author.phone}")
+                print(f"Email ID: {author.email_id}")
+                print("-------------------------------")
+
+            break
+        elif action == 5:
+            print("List of books: ")
+            for book in books:
+                print("-------------------------------")
+                print(f"Title: {book.book_title}")
+                print(f"Author: {books[int(book.author_id)].book_title}")
+                print(f"Publisher: {book.publisher}")
+                print(f"Year: {book.year_of_publication}")
+                print("-------------------------------")
+
+
+            break
+        elif action == 6:
+            print("List of users: ")
+            for user in users:
+                print("-------------------------------")
+                print(f"Name: {user.name}")
+                print(f"Borrowed books: {user.booksborrowed}")
+                print(f"Phone: {user.phone}")
+                print(f"Address: {user.address}")
+                print(f"Email ID: {user.email_id}")
+                print("-------------------------------")
+
+            break
+        elif action == 7:
+            print("List of users: ")
+            for user in users:
+                print(f"{user.name}, id = {user.user_id}")
+            res = int(input("Enter id of the user you want to add book for: "))
+            users[res].borrow_book()
+            break
+        elif action == 0:
+            print("Thanks you for choosing us! See you soon!")
+            exit()
