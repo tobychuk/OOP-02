@@ -1,0 +1,122 @@
+customers = []
+cards = []
+class Customer():
+    id = 0
+    def __init__(self):
+        self.cid = Customer.id
+        Customer.id += 1
+        self.acc_no = ""
+        self.balance = ""
+        self.credit_card = []
+
+    def create_customer(self):
+        self.acc_no = input("Enter account number: ")
+        self.balance = int(input("Enter balance of the customer: "))
+
+    def display_customer(self):
+        print(f"Account-{self.cid}, #{self.acc_no} has a balance of {self.balance}")
+        print("Cards: ")
+        for card in self.credit_card:
+            print(f"{card.card_no[-4:]}")
+
+    def assign_card(self, card_object):
+        self.credit_card.append(card_object)
+        print(f"Successfully added {card_object.card_no[-4:]} to {self.acc_no}")
+
+    def transfer_funds(self, bene_cust_obj, amount):
+        bene_cust_obj.balance += amount
+        self.balance -= amount
+        print(f"{bene_cust_obj.acc_no} received {amount}$ from {self.acc_no}")
+
+
+class Card():
+    id = 0
+    def __init__(self):
+        self.id = Card.id
+        Card.id +=1
+        self.card_no = ""
+        self.cvv = ""
+        self.expiry_date = ""
+        self.balance = ""
+
+    def create_card(self):
+        self.card_no = input("Enter card number: ")
+        self.cvv = input(f"Enter CVV for {self.card_no[-4:]}: ")
+        self.expiry_date = input("Enter expiration date: ")
+        self.balance = int(input(f"Enter balance for {self.card_no[-4:]}: "))
+
+    def display_card(self):
+        print(f"Card number: {self.card_no}, cvv: {self.cvv}, exp: {self.expiry_date}")
+        print(f"Balance: {self.balance}")
+
+
+while True:
+    print("Welcome to Bank of Dauren!")
+    print("Menu: ")
+    print("1 - Create Customer")
+    print("2 - Create Card")
+    print("3 - Transfer funds between customers")
+    print("4 - Assign Card to the Customer")
+    print("5 - Display Customers")
+    print("6 - Display Card")
+    print("0 - Exit")
+    while True:
+        action = int(input("Choose your action: "))
+        if action == 1:
+            new_customer = Customer()
+            new_customer.create_customer()
+            customers.append(new_customer)
+            print(f"Successfully created {new_customer.acc_no}")
+            break
+        elif action == 2:
+            new_card = Card()
+            new_card.create_card()
+            cards.append(new_card)
+            print(f"Successfully created {new_card.card_no}")
+            break
+
+        elif action == 3:
+            for customer in customers:
+                print(f"ID: {customer.cid}, acc_no: {customer.acc_no}")
+            giver = int(input("Enter ID of the giver: "))
+            amount = int(input("Enter the amount: "))
+            receiver = int(input("Enter ID of the receiver: "))
+            customers[giver].transfer_funds(customers[receiver], amount)
+            break
+
+        elif action == 4:
+            for customer in customers:
+                print(f"ID: {customer.cid}, acc_no: {customer.acc_no}")
+            customer = int(input("Enter ID of the customer you want assign card for: "))
+
+            for card in cards:
+                print(f"ID: {card.id}, card_no: {card.card_no[-4:]}")
+            card = int(input(f"Enter ID of the card you want to assign for {customers[customer].acc_no}"))
+            customers[customer].assign_card(cards[card])
+            break
+
+        elif action == 5:
+            print("List of customers: ")
+            for customer in customers:
+                print(f"ID: {customer.cid}, acc_no: {customer.acc_no}")
+                print(f"Balance: ${customer.balance}")
+                print("Cards: ")
+                for card in customer.credit_card:
+                    print(card.card_no[-4:])
+                    print("*-*-*-*-*")
+                print("-------------")
+
+            break
+        elif action == 6:
+            print("List of cards: ")
+            for card in cards:
+                print(f"ID: {card.id}, card_no: {card.card_no}")
+                print(f"cvv: {card.cvv}, exp: {card.expiry_date}")
+                print(f"Balance: {card.balance}")
+                print("-------------")
+            break
+        elif action == 7:
+            print("Thanks you for choosing!")
+            exit()
+
+
